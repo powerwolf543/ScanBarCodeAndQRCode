@@ -1,35 +1,25 @@
 //
-//  BarCodeViewController.m
-//  PracticeThreeBarCode
+//  ScanQRCodeViewController.m
+//  ObjCScanBarCodeAndQRCode
 //
-//  Created by NixonShih on 2016/11/29.
+//  Created by NixonShih on 2016/12/16.
 //  Copyright © 2016年 Nixon. All rights reserved.
 //
 
-/*
- 在台灣常常會遇到三個條碼放在一起的繳費單，
- 但是有時候我們只需要其中一條就可以判斷出完整的資訊，
- 這個範例的遮罩中有三個可以掃描的區域，
- 雖然我們只要其中一個條碼，
- 但是這樣可以幫助使用者可容易找到他需要掃描的區域。
- */
-
-#import "BarCodeViewController.h"
+#import "ScanQRCodeViewController.h"
 #import <AVFoundation/AVFoundation.h>
 
-#import "NDBarCodeMaskView.h"
+#import "NDQRCodeMaskView.h"
 
-@interface BarCodeViewController () <AVCaptureMetadataOutputObjectsDelegate>
+@interface ScanQRCodeViewController () <AVCaptureMetadataOutputObjectsDelegate>
 @property (strong, nonatomic) AVCaptureSession *session;
 /** 讓使用者預覽掃描的結果 */
 @property (weak, nonatomic) AVCaptureVideoPreviewLayer *previewLayer;
 /** 偽遮罩 */
-@property (strong, nonatomic) NDBarCodeMaskView *maskView;
+@property (strong, nonatomic) NDQRCodeMaskView *maskView;
 @end
 
-static NSUInteger kVaildBarcodeLength = 16;
-
-@implementation BarCodeViewController
+@implementation ScanQRCodeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -57,7 +47,10 @@ static NSUInteger kVaildBarcodeLength = 16;
 /** 加上幫助使用者對準的遮罩 */
 - (void)addMaskView {
     
-    _maskView = [[NDBarCodeMaskView alloc] initWithScanPosition:CGPointMake(10, 36)];
+    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+    CGRect scanRect = CGRectMake(30, 30, screenWidth - 60, screenWidth - 60);
+    
+    _maskView = [[NDQRCodeMaskView alloc] initWithScanFrame:scanRect];
     _maskView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_maskView];
     _maskView.translatesAutoresizingMaskIntoConstraints = false;
@@ -68,13 +61,14 @@ static NSUInteger kVaildBarcodeLength = 16;
 }
 
 - (void)addSampleImage {
-    UIImageView *sampleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ScanBarCodeSample"]];
+    UIImageView *sampleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ScanQRCodeSample"]];
     [self.view addSubview:sampleImageView];
     sampleImageView.translatesAutoresizingMaskIntoConstraints = false;
     NSDictionary *views = @{@"sampleImageView":sampleImageView};
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[sampleImageView]-(30)-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(20)-[sampleImageView]-(20)-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
-    [sampleImageView addConstraint:[NSLayoutConstraint constraintWithItem:sampleImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:sampleImageView attribute:NSLayoutAttributeHeight multiplier:1.6f constant:0]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[sampleImageView]-(20)-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [sampleImageView addConstraint:[NSLayoutConstraint constraintWithItem:sampleImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:sampleImageView attribute:NSLayoutAttributeHeight multiplier:0.92f constant:0]];
+    [sampleImageView addConstraint:[NSLayoutConstraint constraintWithItem:sampleImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:160]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:sampleImageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0]];
 }
 
 #pragma mark - BarCode Scan
@@ -108,7 +102,7 @@ static NSUInteger kVaildBarcodeLength = 16;
     
     [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
     // 要先 addOutput 才能設定 MetadataObjectTypes 不然會 crash
-    [output setMetadataObjectTypes:@[AVMetadataObjectTypeCode39Code,AVMetadataObjectTypeCode39Mod43Code]];
+    [output setMetadataObjectTypes:@[AVMetadataObjectTypeQRCode]];
     
     _previewLayer = [self preparePreviewLayer];
     [self.view.layer insertSublayer:_previewLayer atIndex:0];
@@ -123,7 +117,7 @@ static NSUInteger kVaildBarcodeLength = 16;
                                                       
                                                       CGFloat outputRectWidth = self.view.frame.size.width;
                                                       // 這邊設定了一個較大的區域，可以幫助使用者更容易掃描到資訊。
-                                                      CGRect outputRect = CGRectMake(0, 91, outputRectWidth, 60);
+                                                      CGRect outputRect = CGRectMake(0, 0, outputRectWidth, outputRectWidth);
                                                       output.rectOfInterest = [_previewLayer metadataOutputRectOfInterestForRect:outputRect];
                                                   }];
 }
@@ -158,40 +152,36 @@ static NSUInteger kVaildBarcodeLength = 16;
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
     NSString *detectionString = nil;
-
+    
     if (!metadataObjects || metadataObjects.count == 0) return;
     
     for (AVMetadataObject *metadata in metadataObjects) {
-
-        // 這邊我們只拿 AVMetadataObjectTypeCode39Code 格式的資料。
-        if ([metadata.type isEqualToString:AVMetadataObjectTypeCode39Code])
+        
+        // 這邊我們只拿 AVMetadataObjectTypeQRCode 格式的資料。
+        if ([metadata.type isEqualToString:AVMetadataObjectTypeQRCode])
         {
-//            AVMetadataMachineReadableCodeObject *barCodeObject = (AVMetadataMachineReadableCodeObject *)[_previewLayer transformedMetadataObjectForMetadataObject:(AVMetadataMachineReadableCodeObject *)metadata];
             detectionString = [(AVMetadataMachineReadableCodeObject *)metadata stringValue];
-//            NSLog(@"%@",detectionString);
-
-            // 藉由掃描到的條碼文字長度來判斷是否是我們所需要的
-            if (detectionString.length == kVaildBarcodeLength) {
-                // Vibrate 震動
-                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-    
-                // 暫停掃描
-                [_session stopRunning];
-                _previewLayer.connection.enabled = false;
+            //            NSLog(@"%@",detectionString);
+            
+            // Vibrate 震動
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+            
+            // 暫停掃描
+            [_session stopRunning];
+            _previewLayer.connection.enabled = false;
+            
+            // 簡單的用alert來呈現掃描到的結果
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"掃到了拉" message:detectionString preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"確定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 
-                // 簡單的用alert來呈現掃描到的結果
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"掃到了拉" message:detectionString preferredStyle:UIAlertControllerStyleAlert];
-                [alert addAction:[UIAlertAction actionWithTitle:@"確定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    
-                    // 按完確定之後繼續掃描
-                    _previewLayer.connection.enabled = true;
-                    [_session startRunning];
-                }]];
-                
-                [self presentViewController:alert animated:true completion:nil];
-                
-                break;
-            }
+                // 按完確定之後繼續掃描
+                _previewLayer.connection.enabled = true;
+                [_session startRunning];
+            }]];
+            
+            [self presentViewController:alert animated:true completion:nil];
+            
+            break;
         }
     }
     

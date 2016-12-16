@@ -85,7 +85,7 @@
         <!--QRCode-->
         <scene sceneID="Fud-MV-lHe">
             <objects>
-                <viewController title="QRCode" id="Lc7-V9-OCr" sceneMemberID="viewController">
+                <viewController title="QRCode" id="Lc7-V9-OCr" customClass="ScanQRCodeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8zU-Lo-ydx"/>
                         <viewControllerLayoutGuide type="bottom" id="9Tk-jO-l96"/>

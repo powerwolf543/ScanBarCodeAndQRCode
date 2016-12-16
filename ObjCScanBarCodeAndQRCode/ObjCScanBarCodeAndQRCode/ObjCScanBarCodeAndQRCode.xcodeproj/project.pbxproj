@@ -13,7 +13,9 @@
 		256867481E02411600A8EFEB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 256867461E02411600A8EFEB /* Main.storyboard */; };
 		2568674A1E02411600A8EFEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 256867491E02411600A8EFEB /* Assets.xcassets */; };
 		2568674D1E02411600A8EFEB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2568674B1E02411600A8EFEB /* LaunchScreen.storyboard */; };
-		256867561E02415F00A8EFEB /* BarCodeMaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = 256867551E02415F00A8EFEB /* BarCodeMaskView.m */; };
+		256867561E02415F00A8EFEB /* NDBarCodeMaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = 256867551E02415F00A8EFEB /* NDBarCodeMaskView.m */; };
+		25B253701E03D0170071C524 /* ScanQRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B2536F1E03D0170071C524 /* ScanQRCodeViewController.m */; };
+		25B253731E03D19C0071C524 /* NDQRCodeMaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B253721E03D19C0071C524 /* NDQRCodeMaskView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,8 +29,12 @@
 		256867491E02411600A8EFEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2568674C1E02411600A8EFEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2568674E1E02411600A8EFEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		256867541E02415F00A8EFEB /* BarCodeMaskView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarCodeMaskView.h; sourceTree = "<group>"; };
-		256867551E02415F00A8EFEB /* BarCodeMaskView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarCodeMaskView.m; sourceTree = "<group>"; };
+		256867541E02415F00A8EFEB /* NDBarCodeMaskView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDBarCodeMaskView.h; sourceTree = "<group>"; };
+		256867551E02415F00A8EFEB /* NDBarCodeMaskView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDBarCodeMaskView.m; sourceTree = "<group>"; };
+		25B2536E1E03D0170071C524 /* ScanQRCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanQRCodeViewController.h; sourceTree = "<group>"; };
+		25B2536F1E03D0170071C524 /* ScanQRCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanQRCodeViewController.m; sourceTree = "<group>"; };
+		25B253711E03D19C0071C524 /* NDQRCodeMaskView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDQRCodeMaskView.h; sourceTree = "<group>"; };
+		25B253721E03D19C0071C524 /* NDQRCodeMaskView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDQRCodeMaskView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,8 +71,12 @@
 				256867411E02411600A8EFEB /* AppDelegate.m */,
 				256867431E02411600A8EFEB /* BarCodeViewController.h */,
 				256867441E02411600A8EFEB /* BarCodeViewController.m */,
-				256867541E02415F00A8EFEB /* BarCodeMaskView.h */,
-				256867551E02415F00A8EFEB /* BarCodeMaskView.m */,
+				25B2536E1E03D0170071C524 /* ScanQRCodeViewController.h */,
+				25B2536F1E03D0170071C524 /* ScanQRCodeViewController.m */,
+				25B253711E03D19C0071C524 /* NDQRCodeMaskView.h */,
+				25B253721E03D19C0071C524 /* NDQRCodeMaskView.m */,
+				256867541E02415F00A8EFEB /* NDBarCodeMaskView.h */,
+				256867551E02415F00A8EFEB /* NDBarCodeMaskView.m */,
 				256867461E02411600A8EFEB /* Main.storyboard */,
 				256867491E02411600A8EFEB /* Assets.xcassets */,
 				2568674B1E02411600A8EFEB /* LaunchScreen.storyboard */,
@@ -156,10 +166,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25B253701E03D0170071C524 /* ScanQRCodeViewController.m in Sources */,
 				256867451E02411600A8EFEB /* BarCodeViewController.m in Sources */,
+				25B253731E03D19C0071C524 /* NDQRCodeMaskView.m in Sources */,
 				256867421E02411600A8EFEB /* AppDelegate.m in Sources */,
 				2568673F1E02411600A8EFEB /* main.m in Sources */,
-				256867561E02415F00A8EFEB /* BarCodeMaskView.m in Sources */,
+				256867561E02415F00A8EFEB /* NDBarCodeMaskView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

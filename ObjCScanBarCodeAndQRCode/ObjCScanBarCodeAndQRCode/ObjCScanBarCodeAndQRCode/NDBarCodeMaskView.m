@@ -6,9 +6,9 @@
 //  Copyright © 2016年 Nixon. All rights reserved.
 //
 
-#import "BarCodeMaskView.h"
+#import "NDBarCodeMaskView.h"
 
-@implementation BarCodeMaskView {
+@implementation NDBarCodeMaskView {
     CGPoint scanPosition;
     NSMutableArray<CAShapeLayer*> *snipeLines;
     CAShapeLayer *maskLayer;
@@ -63,22 +63,22 @@
     
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRect:self.frame];
     
-    CGRect scanOneFrame = CGRectMake(scanPosition.x,
+    _rowOneFrame = CGRectMake(scanPosition.x,
                                      scanPosition.y,
                                      self.frame.size.width - scanPosition.x * 2,
                                      _rowHeight);
-    CGRect scanTwoFrame = CGRectMake(scanPosition.x,
+    _rowTwoFrame = CGRectMake(scanPosition.x,
                                      scanPosition.y + _rowHeight + 10,
                                      self.frame.size.width - scanPosition.x * 2,
                                      _rowHeight);
-    CGRect scanThreeFrame = CGRectMake(scanPosition.x,
+    _rowThreeFrame = CGRectMake(scanPosition.x,
                                        scanPosition.y + _rowHeight * 2 + 10 * 2,
                                        self.frame.size.width - scanPosition.x * 2,
                                        _rowHeight);
     
-    [maskPath appendPath:[[UIBezierPath bezierPathWithRoundedRect:scanOneFrame cornerRadius:1] bezierPathByReversingPath]];
-    [maskPath appendPath:[[UIBezierPath bezierPathWithRoundedRect:scanTwoFrame cornerRadius:1] bezierPathByReversingPath]];
-    [maskPath appendPath:[[UIBezierPath bezierPathWithRoundedRect:scanThreeFrame cornerRadius:1] bezierPathByReversingPath]];
+    [maskPath appendPath:[[UIBezierPath bezierPathWithRoundedRect:_rowOneFrame cornerRadius:1] bezierPathByReversingPath]];
+    [maskPath appendPath:[[UIBezierPath bezierPathWithRoundedRect:_rowTwoFrame cornerRadius:1] bezierPathByReversingPath]];
+    [maskPath appendPath:[[UIBezierPath bezierPathWithRoundedRect:_rowThreeFrame cornerRadius:1] bezierPathByReversingPath]];
     
     for (CAShapeLayer *theSnipeLine in snipeLines) {
         [theSnipeLine removeFromSuperlayer];
@@ -86,9 +86,9 @@
     
     snipeLines = [NSMutableArray new];
     
-    [self prepareSnipeLayerWithFrame:scanOneFrame];
-    [self prepareSnipeLayerWithFrame:scanTwoFrame];
-    [self prepareSnipeLayerWithFrame:scanThreeFrame];
+    [self prepareSnipeLayerWithFrame:_rowOneFrame];
+    [self prepareSnipeLayerWithFrame:_rowTwoFrame];
+    [self prepareSnipeLayerWithFrame:_rowThreeFrame];
     
     
     maskLayer = [CAShapeLayer new];
