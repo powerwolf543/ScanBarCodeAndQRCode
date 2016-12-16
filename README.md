@@ -1,7 +1,7 @@
 ScanBarCodeAndQRCode
 =========
 
-
+1.0 Ojective - C 版本完成
 
 Require
 -----------
