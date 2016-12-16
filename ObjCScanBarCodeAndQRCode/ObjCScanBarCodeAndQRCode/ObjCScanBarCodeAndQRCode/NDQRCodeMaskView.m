@@ -9,7 +9,9 @@
 #import "NDQRCodeMaskView.h"
 
 @implementation NDQRCodeMaskView {
+    /** 放四個角落的對準線 */
     NSMutableArray<CAShapeLayer*> *snipeLines;
+    /** 遮罩的layer */
     CAShapeLayer *maskLayer;
 }
 

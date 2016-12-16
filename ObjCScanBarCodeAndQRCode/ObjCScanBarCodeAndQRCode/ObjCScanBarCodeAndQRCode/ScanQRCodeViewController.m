@@ -19,7 +19,16 @@
 @property (strong, nonatomic) NDQRCodeMaskView *maskView;
 @end
 
-@implementation ScanQRCodeViewController
+@implementation ScanQRCodeViewController {
+    /** 掃瞄框與superView的間距 */
+    CGFloat theSpacing;
+    /** 掃瞄框的寬 */
+    CGFloat scanRectWidth;
+    /** 動畫的掃描線 */
+    UIView *scanLine;
+    /** 掃描線跟superView的間距 */
+    NSLayoutConstraint *scanLineTopConstraint;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,11 +39,17 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self startScan];
+    [self startScanAnimation];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self stopScan];
+    [self stopScanAnimation];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -47,8 +62,11 @@
 /** 加上幫助使用者對準的遮罩 */
 - (void)addMaskView {
     
+    theSpacing = 30.f;
+    
     CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-    CGRect scanRect = CGRectMake(30, 30, screenWidth - 60, screenWidth - 60);
+    scanRectWidth = screenWidth - theSpacing * 2;
+    CGRect scanRect = CGRectMake(theSpacing, theSpacing, scanRectWidth, scanRectWidth);
     
     _maskView = [[NDQRCodeMaskView alloc] initWithScanFrame:scanRect];
     _maskView.backgroundColor = [UIColor clearColor];
@@ -60,6 +78,7 @@
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[maskView]-(0)-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
 }
 
+/** 加上掃描範例圖 */
 - (void)addSampleImage {
     UIImageView *sampleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ScanQRCodeSample"]];
     [self.view addSubview:sampleImageView];
@@ -69,6 +88,55 @@
     [sampleImageView addConstraint:[NSLayoutConstraint constraintWithItem:sampleImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:sampleImageView attribute:NSLayoutAttributeHeight multiplier:0.92f constant:0]];
     [sampleImageView addConstraint:[NSLayoutConstraint constraintWithItem:sampleImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:160]];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:sampleImageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.f constant:0]];
+}
+
+/** 加上動畫線的View */
+- (void)addScanLine {
+    scanLine = [UIView new];
+    scanLine.backgroundColor = [UIColor colorWithRed:1.f green:0 blue:0 alpha:0.4];
+    [self.view addSubview:scanLine];
+    scanLine.translatesAutoresizingMaskIntoConstraints = false;
+    
+    NSDictionary *views = @{@"scanLine":scanLine};
+    scanLineTopConstraint = [NSLayoutConstraint constraintWithItem:scanLine attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.f constant:theSpacing];
+    [self.view addConstraint:scanLineTopConstraint];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[scanLine(2)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-(%f)-[scanLine]-(%f)-|",theSpacing,theSpacing] options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    
+    scanLine.layer.shadowColor = [UIColor redColor].CGColor;
+    scanLine.layer.shadowOffset = CGSizeMake(0, 0);
+    scanLine.layer.shadowRadius = 2;
+    scanLine.layer.shadowOpacity = 1.f;
+}
+
+#pragma mark - Animation
+
+/** 開始掃描線動畫 */
+- (void)startScanAnimation {
+    
+    if (!scanLine) {
+        [self addScanLine];
+        [self.view layoutIfNeeded];
+    }
+    
+    scanLineTopConstraint.constant += scanRectWidth;
+
+    [UIView animateWithDuration:1.5f delay:0 options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        if (finished) {
+            scanLineTopConstraint.constant = theSpacing;
+        }else{
+            [self stopScanAnimation];
+            [self startScanAnimation];
+        }
+    }];
+}
+
+/** 停止掃描線動畫 */
+- (void)stopScanAnimation {
+    [scanLine removeFromSuperview];
+    scanLine = nil;
 }
 
 #pragma mark - BarCode Scan
@@ -166,6 +234,8 @@
             // Vibrate 震動
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             
+            [self stopScanAnimation];
+            
             // 暫停掃描
             [_session stopRunning];
             _previewLayer.connection.enabled = false;
@@ -177,6 +247,8 @@
                 // 按完確定之後繼續掃描
                 _previewLayer.connection.enabled = true;
                 [_session startRunning];
+                
+                [self startScanAnimation];
             }]];
             
             [self presentViewController:alert animated:true completion:nil];

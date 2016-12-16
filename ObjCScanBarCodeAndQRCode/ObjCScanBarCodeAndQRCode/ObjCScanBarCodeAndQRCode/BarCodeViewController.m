@@ -67,6 +67,7 @@ static NSUInteger kVaildBarcodeLength = 16;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[maskView]-(0)-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
 }
 
+/** 加上掃描範例圖 */
 - (void)addSampleImage {
     UIImageView *sampleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ScanBarCodeSample"]];
     [self.view addSubview:sampleImageView];

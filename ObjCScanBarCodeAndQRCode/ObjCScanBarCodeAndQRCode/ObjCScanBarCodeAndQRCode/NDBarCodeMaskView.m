@@ -9,8 +9,11 @@
 #import "NDBarCodeMaskView.h"
 
 @implementation NDBarCodeMaskView {
+    /** 掃瞄框的起始位置 */
     CGPoint scanPosition;
+    /** 放四個角落的對準線 */
     NSMutableArray<CAShapeLayer*> *snipeLines;
+    /** 遮罩的layer */
     CAShapeLayer *maskLayer;
 }
 
