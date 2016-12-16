@@ -115,7 +115,7 @@
 				TargetAttributes = {
 					256867391E02411600A8EFEB = {
 						CreatedOnToolsVersion = 8.2;
-						DevelopmentTeam = RF986632CV;
+						DevelopmentTeam = 4L8ZYH7944;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -279,7 +279,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = RF986632CV;
+				DEVELOPMENT_TEAM = 4L8ZYH7944;
 				INFOPLIST_FILE = ObjCScanBarCodeAndQRCode/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -292,7 +292,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = RF986632CV;
+				DEVELOPMENT_TEAM = 4L8ZYH7944;
 				INFOPLIST_FILE = ObjCScanBarCodeAndQRCode/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -320,6 +320,7 @@
 				256867531E02411600A8EFEB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -6,6 +6,14 @@
 //  Copyright © 2016年 Nixon. All rights reserved.
 //
 
+/*
+ 在台灣常常會遇到三個條碼放在一起的繳費單，
+ 但是有時候我們只需要其中一條就可以判斷出完整的資訊，
+ 這個範例的遮罩中有三個可以掃描的區域，
+ 雖然我們只要其中一個條碼，
+ 但是這樣可以幫助使用者可容易找到他需要掃描的區域。
+ */
+
 #import "BarCodeViewController.h"
 #import <AVFoundation/AVFoundation.h>
 
@@ -24,6 +32,7 @@ static NSUInteger kVaildBarcodeLength = 16;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addMaskView];
+    [self addSampleImage];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -54,6 +63,16 @@ static NSUInteger kVaildBarcodeLength = 16;
     NSDictionary *views = @{@"maskView":_maskView};
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[maskView]-(0)-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[maskView]-(0)-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+}
+
+- (void)addSampleImage {
+    UIImageView *sampleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ScanBarCodeSample"]];
+    [self.view addSubview:sampleImageView];
+    sampleImageView.translatesAutoresizingMaskIntoConstraints = false;
+    NSDictionary *views = @{@"sampleImageView":sampleImageView};
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[sampleImageView]-(30)-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(20)-[sampleImageView]-(20)-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
+    [sampleImageView addConstraint:[NSLayoutConstraint constraintWithItem:sampleImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:sampleImageView attribute:NSLayoutAttributeHeight multiplier:1.6f constant:0]];
 }
 
 #pragma mark - BarCode Scan
@@ -92,12 +111,19 @@ static NSUInteger kVaildBarcodeLength = 16;
     _previewLayer = [self preparePreviewLayer];
     [self.view.layer insertSublayer:_previewLayer atIndex:0];
     
-
-    CGSize maskViewSize = self.view.bounds.size;
-    CGRect rect = CGRectMake(0, 155 - 64, maskViewSize.width, 60);
-    CGRect intertRect = [_previewLayer metadataOutputRectOfInterestForRect:rect];
-    
-    output.rectOfInterest = intertRect;
+    // rectOfInterest 可以設定 AVCaptureMetadataOutput 解析的區域。
+    // rectOfInterest 需要透過 metadataOutputRectOfInterestForRect 轉換成專屬座標。
+    // 需要在 InputPortFormatDescriptionDidChangeNotification 的這個通知使用 metadataOutputRectOfInterestForRect，這樣才能精準的轉換座標。
+    [[NSNotificationCenter defaultCenter] addObserverForName:AVCaptureInputPortFormatDescriptionDidChangeNotification
+                                                      object:nil
+                                                       queue:[NSOperationQueue currentQueue]
+                                                  usingBlock: ^(NSNotification *_Nonnull note) {
+                                                      
+                                                      CGFloat outputRectWidth = self.view.frame.size.width;
+                                                      // 這邊設定了一個較大的區域，可以幫助使用者更容易掃描到資訊。
+                                                      CGRect outputRect = CGRectMake(0, 91, outputRectWidth, 60);
+                                                      output.rectOfInterest = [_previewLayer metadataOutputRectOfInterestForRect:outputRect];
+                                                  }];
 }
 
 /** 開始掃描，並準備一切掃描開始所需做的事情。 */
@@ -129,17 +155,16 @@ static NSUInteger kVaildBarcodeLength = 16;
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
-    CGRect highlightViewRect = CGRectZero;
     NSString *detectionString = nil;
 
     if (!metadataObjects || metadataObjects.count == 0) return;
     
     for (AVMetadataObject *metadata in metadataObjects) {
 
+        // 這邊我們只拿 AVMetadataObjectTypeCode39Code 格式的資料。
         if ([metadata.type isEqualToString:AVMetadataObjectTypeCode39Code])
         {
-            AVMetadataMachineReadableCodeObject *barCodeObject = (AVMetadataMachineReadableCodeObject *)[_previewLayer transformedMetadataObjectForMetadataObject:(AVMetadataMachineReadableCodeObject *)metadata];
-            highlightViewRect = barCodeObject.bounds;
+//            AVMetadataMachineReadableCodeObject *barCodeObject = (AVMetadataMachineReadableCodeObject *)[_previewLayer transformedMetadataObjectForMetadataObject:(AVMetadataMachineReadableCodeObject *)metadata];
             detectionString = [(AVMetadataMachineReadableCodeObject *)metadata stringValue];
 //            NSLog(@"%@",detectionString);
 
