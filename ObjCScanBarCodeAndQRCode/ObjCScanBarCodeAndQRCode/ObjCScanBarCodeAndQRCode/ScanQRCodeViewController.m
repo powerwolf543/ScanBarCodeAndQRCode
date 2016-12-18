@@ -69,6 +69,7 @@
     CGRect scanRect = CGRectMake(theSpacing, theSpacing, scanRectWidth, scanRectWidth);
     
     _maskView = [[NDQRCodeMaskView alloc] initWithScanFrame:scanRect];
+    _maskView.snipeColor = [UIColor colorWithRed:53.f/255.f green:187.f/255.f blue:5.f/255.f alpha:1.f];
     _maskView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_maskView];
     _maskView.translatesAutoresizingMaskIntoConstraints = false;
