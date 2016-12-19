@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		252C80301E078A7600842F1F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 252C802F1E078A7600842F1F /* ViewController.m */; };
 		2568673F1E02411600A8EFEB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2568673E1E02411600A8EFEB /* main.m */; };
 		256867421E02411600A8EFEB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256867411E02411600A8EFEB /* AppDelegate.m */; };
 		256867451E02411600A8EFEB /* BarCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 256867441E02411600A8EFEB /* BarCodeViewController.m */; };
@@ -19,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		252C802E1E078A7600842F1F /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		252C802F1E078A7600842F1F /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		2568673A1E02411600A8EFEB /* ObjCScanBarCodeAndQRCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjCScanBarCodeAndQRCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2568673E1E02411600A8EFEB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		256867401E02411600A8EFEB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -67,6 +70,8 @@
 		2568673C1E02411600A8EFEB /* ObjCScanBarCodeAndQRCode */ = {
 			isa = PBXGroup;
 			children = (
+				252C802E1E078A7600842F1F /* ViewController.h */,
+				252C802F1E078A7600842F1F /* ViewController.m */,
 				256867401E02411600A8EFEB /* AppDelegate.h */,
 				256867411E02411600A8EFEB /* AppDelegate.m */,
 				256867431E02411600A8EFEB /* BarCodeViewController.h */,
@@ -166,6 +171,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				252C80301E078A7600842F1F /* ViewController.m in Sources */,
 				25B253701E03D0170071C524 /* ScanQRCodeViewController.m in Sources */,
 				256867451E02411600A8EFEB /* BarCodeViewController.m in Sources */,
 				25B253731E03D19C0071C524 /* NDQRCodeMaskView.m in Sources */,

@@ -89,6 +89,10 @@
     
     snipeLines = [NSMutableArray new];
     
+    [self prepareBorderWithScanFrame:_rowOneFrame];
+    [self prepareBorderWithScanFrame:_rowTwoFrame];
+    [self prepareBorderWithScanFrame:_rowThreeFrame];
+    
     [self prepareSnipeLayerWithFrame:_rowOneFrame];
     [self prepareSnipeLayerWithFrame:_rowTwoFrame];
     [self prepareSnipeLayerWithFrame:_rowThreeFrame];
@@ -99,6 +103,20 @@
     maskLayer.path = maskPath.CGPath;
     
     [self.layer addSublayer:maskLayer];
+}
+
+- (void)prepareBorderWithScanFrame:(CGRect)theScanFrame {
+    
+    CGRect theBorderFrame = CGRectMake(theScanFrame.origin.x + 0.5, theScanFrame.origin.y + 0.5, theScanFrame.size.width - 1, theScanFrame.size.height - 1);
+    UIBezierPath *borderPath = [UIBezierPath bezierPathWithRect:theBorderFrame];
+    
+    CAShapeLayer *borderLayer = [CAShapeLayer new];
+    borderLayer.strokeColor = [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:0.3f].CGColor;
+    borderLayer.lineWidth = .5f;
+    borderLayer.fillColor = [UIColor clearColor].CGColor;
+    borderLayer.path = borderPath.CGPath;
+    
+    [self.layer addSublayer:borderLayer];
 }
 
 /** 繪出四個角落的對準線 */

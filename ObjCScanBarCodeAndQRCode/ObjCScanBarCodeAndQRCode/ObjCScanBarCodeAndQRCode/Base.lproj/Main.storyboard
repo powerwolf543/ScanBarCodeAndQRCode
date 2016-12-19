@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="WcR-t8-KBw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="WcR-t8-KBw">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -12,7 +12,7 @@
         <!--Hello-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Hello" id="BYZ-38-t0r" sceneMemberID="viewController">
+                <viewController title="Hello" id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -50,7 +50,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.23286802030456855" green="0.23286802030456855" blue="0.23286802030456855" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="tj0-cd-DG9" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="88P-nY-SFy"/>
                             <constraint firstItem="g0r-bQ-QyC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" multiplier="1.45" id="B4W-lw-NIf"/>
@@ -58,7 +58,11 @@
                             <constraint firstItem="g0r-bQ-QyC" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="rkw-wq-Znu"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="uDM-rD-Xcz"/>
+                    <navigationItem key="navigationItem" title="Hello" id="1G2-mk-bko"/>
+                    <connections>
+                        <outlet property="barCodeButton" destination="tj0-cd-DG9" id="SVr-sY-GMi"/>
+                        <outlet property="qrCodeButton" destination="g0r-bQ-QyC" id="gKV-jN-hOL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -108,7 +112,11 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="gQn-yp-yHY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         <color key="barTintColor" red="0.058823529411764705" green="0.058823529411764705" blue="0.058823529411764705" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
