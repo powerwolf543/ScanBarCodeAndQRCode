@@ -9,8 +9,6 @@
 #import "NDBarCodeMaskView.h"
 
 @implementation NDBarCodeMaskView {
-    /** 掃瞄框的起始位置 */
-    CGPoint scanPosition;
     /** 放四個角落的對準線 */
     NSMutableArray<CAShapeLayer*> *snipeLines;
     /** 遮罩的layer */
@@ -22,7 +20,7 @@
     self = [super initWithFrame:CGRectZero];
     
     if (self) {
-        scanPosition = theScanPosition;
+        _scanPosition = theScanPosition;
         [self defaulteSetting];
     }
     
@@ -34,7 +32,7 @@
     self = [super initWithFrame:frame];
     
     if (self) {
-        scanPosition = theScanPosition;
+        _scanPosition = theScanPosition;
     }
     
     return self;
@@ -66,18 +64,18 @@
     
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRect:self.frame];
     
-    _rowOneFrame = CGRectMake(scanPosition.x,
-                                     scanPosition.y,
-                                     self.frame.size.width - scanPosition.x * 2,
-                                     _rowHeight);
-    _rowTwoFrame = CGRectMake(scanPosition.x,
-                                     scanPosition.y + _rowHeight + 10,
-                                     self.frame.size.width - scanPosition.x * 2,
-                                     _rowHeight);
-    _rowThreeFrame = CGRectMake(scanPosition.x,
-                                       scanPosition.y + _rowHeight * 2 + 10 * 2,
-                                       self.frame.size.width - scanPosition.x * 2,
-                                       _rowHeight);
+    _rowOneFrame = CGRectMake(_scanPosition.x,
+                              _scanPosition.y,
+                              self.frame.size.width - _scanPosition.x * 2,
+                              _rowHeight);
+    _rowTwoFrame = CGRectMake(_scanPosition.x,
+                              _scanPosition.y + _rowHeight + 10,
+                              self.frame.size.width - _scanPosition.x * 2,
+                              _rowHeight);
+    _rowThreeFrame = CGRectMake(_scanPosition.x,
+                                _scanPosition.y + _rowHeight * 2 + 10 * 2,
+                                self.frame.size.width - _scanPosition.x * 2,
+                                _rowHeight);
     
     [maskPath appendPath:[[UIBezierPath bezierPathWithRoundedRect:_rowOneFrame cornerRadius:1] bezierPathByReversingPath]];
     [maskPath appendPath:[[UIBezierPath bezierPathWithRoundedRect:_rowTwoFrame cornerRadius:1] bezierPathByReversingPath]];

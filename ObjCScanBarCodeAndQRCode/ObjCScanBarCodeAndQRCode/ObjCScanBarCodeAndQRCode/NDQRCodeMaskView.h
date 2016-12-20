@@ -19,7 +19,7 @@
 /** 掃描框框四個角落瞄準線的顏色，預設值為白色。 */
 @property (strong, nonatomic) UIColor *snipeColor;
 /** 掃瞄框的大小與位置 */
-@property (assign, nonatomic, readonly) CGRect scanFrame;
+@property (assign, nonatomic) CGRect scanFrame;
 
 /** 更新整個遮罩 */
 - (void)refreshView;
