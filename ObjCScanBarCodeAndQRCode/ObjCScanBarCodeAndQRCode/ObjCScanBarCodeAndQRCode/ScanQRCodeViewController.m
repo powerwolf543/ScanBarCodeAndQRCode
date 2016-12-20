@@ -17,6 +17,8 @@
 @property (weak, nonatomic) AVCaptureVideoPreviewLayer *previewLayer;
 /** 偽遮罩 */
 @property (strong, nonatomic) NDQRCodeMaskView *maskView;
+/** 使用StoryBoard幫助定位，在ViewDidLoad的時候就會隱藏。 */
+@property (weak, nonatomic) IBOutlet UIView *scanPosition;
 @end
 
 @implementation ScanQRCodeViewController {
@@ -40,16 +42,14 @@
     [super viewWillAppear:animated];
     [self startScan];
     [self startScanAnimation];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+    [self addNotification];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self stopScan];
     [self stopScanAnimation];
+    [self removeNotfication];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -61,12 +61,14 @@
 
 /** 加上幫助使用者對準的遮罩 */
 - (void)addMaskView {
+    // 因為 scanPosition 這個View只是幫助定位，所以直接讓他隱藏。
+    _scanPosition.hidden = true;
+    [_scanPosition layoutIfNeeded];
     
-    theSpacing = 30.f;
+    theSpacing = _scanPosition.frame.origin.y;
+    scanRectWidth = _scanPosition.bounds.size.width;
     
-    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-    scanRectWidth = screenWidth - theSpacing * 2;
-    CGRect scanRect = CGRectMake(theSpacing, theSpacing, scanRectWidth, scanRectWidth);
+    CGRect scanRect = _scanPosition.frame;
     
     _maskView = [[NDQRCodeMaskView alloc] initWithScanFrame:scanRect];
     _maskView.snipeColor = [UIColor colorWithRed:53.f/255.f green:187.f/255.f blue:5.f/255.f alpha:1.f];
@@ -93,6 +95,9 @@
 
 /** 加上動畫線的View */
 - (void)addScanLine {
+    
+    if (scanLine) return;
+    
     scanLine = [UIView new];
     scanLine.backgroundColor = [UIColor colorWithRed:1.f green:0 blue:0 alpha:0.4];
     [self.view addSubview:scanLine];
@@ -110,27 +115,33 @@
     scanLine.layer.shadowOpacity = 1.f;
 }
 
+#pragma mark - Notification
+
+- (void)addNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopScanAnimation) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startScanAnimation) name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
+- (void)removeNotfication {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
 #pragma mark - Animation
 
 /** 開始掃描線動畫 */
 - (void)startScanAnimation {
     
-    if (!scanLine) {
-        [self addScanLine];
-        [self.view layoutIfNeeded];
-    }
+    if (!scanLine) [self addScanLine];
     
+    scanLineTopConstraint.constant = theSpacing;
+    [self.view layoutIfNeeded];
     scanLineTopConstraint.constant += scanRectWidth;
-
+    
     [UIView animateWithDuration:1.5f delay:0 options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat animations:^{
         [self.view layoutIfNeeded];
     } completion:^(BOOL finished) {
-        if (finished) {
-            scanLineTopConstraint.constant = theSpacing;
-        }else{
-            [self stopScanAnimation];
-            [self startScanAnimation];
-        }
+        scanLineTopConstraint.constant = theSpacing;
     }];
 }
 
@@ -144,6 +155,8 @@
 
 /** 對AVCaptureSession進行相關掃描所需的設置 */
 - (void)captureSessionInitial {
+    
+    if (_session) return;
     
     // 建立一個抓取Video的裝置
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -188,6 +201,12 @@
                                                       // 這邊設定了一個較大的區域，可以幫助使用者更容易掃描到資訊。
                                                       CGRect outputRect = CGRectMake(0, 0, outputRectWidth, outputRectWidth);
                                                       output.rectOfInterest = [_previewLayer metadataOutputRectOfInterestForRect:outputRect];
+                                                      
+                                                      // 測試實際掃描區域
+                                                      // CALayer *theLayer = [CALayer new];
+                                                      // theLayer.frame = outputRect;
+                                                      // theLayer.backgroundColor = [UIColor redColor].CGColor;
+                                                      // [_previewLayer addSublayer:theLayer];
                                                   }];
 }
 
