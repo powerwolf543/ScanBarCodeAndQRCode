@@ -51,6 +51,7 @@ static NSUInteger kVaildBarcodeLength = 16;
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
+    _maskView.scanPosition = _scanPosition.frame.origin;
     _previewLayer.frame = [self previewLayerFrame];
 }
 

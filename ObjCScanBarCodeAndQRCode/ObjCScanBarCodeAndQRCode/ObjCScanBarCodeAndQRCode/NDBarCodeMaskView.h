@@ -12,7 +12,7 @@
 @interface NDBarCodeMaskView : UIView
 /** 遮罩顏色，預設值為黑色 alpha 0.5。 */
 @property (strong, nonatomic) UIColor *maskColor;
-/** 掃描框框的高度，預設值為50。 */
+/** 掃描框框的高度，預設值為50，不建議更改。 */
 @property (assign, nonatomic) CGFloat rowHeight;
 /** 掃描框框四個角落瞄準線的寬度，預設值為5。 */
 @property (assign, nonatomic) CGFloat snipeWidth;
@@ -20,6 +20,9 @@
 @property (assign, nonatomic) CGFloat snipeLineLong;
 /** 掃描框框四個角落瞄準線的顏色，預設值為白色。 */
 @property (strong, nonatomic) UIColor *snipeColor;
+
+/** 掃瞄框的起始位置 */
+@property (assign, nonatomic) CGPoint scanPosition;
 
 @property (assign, nonatomic, readonly) CGRect rowOneFrame;
 @property (assign, nonatomic, readonly) CGRect rowTwoFrame;

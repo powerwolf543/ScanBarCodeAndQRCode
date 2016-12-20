@@ -54,6 +54,7 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
+    _maskView.scanFrame = _scanPosition.frame;
     _previewLayer.frame = [self previewLayerFrame];
 }
 
