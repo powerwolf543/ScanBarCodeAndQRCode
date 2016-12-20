@@ -40,12 +40,14 @@
     [super viewWillAppear:animated];
     [self startScan];
     [self startScanAnimation];
+    [self addNotification];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self stopScan];
     [self stopScanAnimation];
+    [self removeNotfication];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -109,12 +111,22 @@
     scanLine.layer.shadowOpacity = 1.f;
 }
 
+#pragma mark - Notification
+
+- (void)addNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopScanAnimation) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startScanAnimation) name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
+- (void)removeNotfication {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
 #pragma mark - Animation
 
 /** 開始掃描線動畫 */
 - (void)startScanAnimation {
-    
-    [self.view.layer removeAllAnimations];
     
     if (!scanLine) [self addScanLine];
     
@@ -125,12 +137,7 @@
     [UIView animateWithDuration:1.5f delay:0 options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat animations:^{
         [self.view layoutIfNeeded];
     } completion:^(BOOL finished) {
-        if (finished) {
-            scanLineTopConstraint.constant = theSpacing;
-        }else{
-            [self stopScanAnimation];
-            [self startScanAnimation];
-        }
+        scanLineTopConstraint.constant = theSpacing;
     }];
 }
 
