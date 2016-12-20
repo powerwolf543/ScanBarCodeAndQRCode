@@ -25,6 +25,8 @@
 @property (weak, nonatomic) AVCaptureVideoPreviewLayer *previewLayer;
 /** 偽遮罩 */
 @property (strong, nonatomic) NDBarCodeMaskView *maskView;
+/** 使用StoryBoard幫助定位，在ViewDidLoad的時候就會隱藏。 */
+@property (weak, nonatomic) IBOutlet UIView *scanPosition;
 @end
 
 static NSUInteger kVaildBarcodeLength = 16;
@@ -57,7 +59,11 @@ static NSUInteger kVaildBarcodeLength = 16;
 /** 加上幫助使用者對準的遮罩 */
 - (void)addMaskView {
     
-    _maskView = [[NDBarCodeMaskView alloc] initWithScanPosition:CGPointMake(10, 36)];
+    // 因為 scanPosition 這個View只是幫助定位，所以直接讓他隱藏。
+    _scanPosition.hidden = true;
+    [_scanPosition layoutIfNeeded];
+    
+    _maskView = [[NDBarCodeMaskView alloc] initWithScanPosition:_scanPosition.frame.origin];
     _maskView.snipeColor = [UIColor colorWithRed:53.f/255.f green:187.f/255.f blue:5.f/255.f alpha:1.f];
     _maskView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_maskView];
@@ -127,8 +133,15 @@ static NSUInteger kVaildBarcodeLength = 16;
                                                       
                                                       CGFloat outputRectWidth = self.view.frame.size.width;
                                                       // 這邊設定了一個較大的區域，可以幫助使用者更容易掃描到資訊。
-                                                      CGRect outputRect = CGRectMake(0, 91, outputRectWidth, 60);
+                                                      CGFloat outputRectY = _scanPosition.frame.origin.y + 50 + 5;
+                                                      CGRect outputRect = CGRectMake(0, outputRectY, outputRectWidth, 60);
                                                       output.rectOfInterest = [_previewLayer metadataOutputRectOfInterestForRect:outputRect];
+                                                      
+                                                      // 測試實際掃描區域
+                                                      // CALayer *theLayer = [CALayer new];
+                                                      // theLayer.frame = outputRect;
+                                                      // theLayer.backgroundColor = [UIColor redColor].CGColor;
+                                                      // [_previewLayer addSublayer:theLayer];
                                                   }];
 }
 
@@ -162,23 +175,23 @@ static NSUInteger kVaildBarcodeLength = 16;
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
     NSString *detectionString = nil;
-
+    
     if (!metadataObjects || metadataObjects.count == 0) return;
     
     for (AVMetadataObject *metadata in metadataObjects) {
-
+        
         // 這邊我們只拿 AVMetadataObjectTypeCode39Code 格式的資料。
         if ([metadata.type isEqualToString:AVMetadataObjectTypeCode39Code])
         {
-//            AVMetadataMachineReadableCodeObject *barCodeObject = (AVMetadataMachineReadableCodeObject *)[_previewLayer transformedMetadataObjectForMetadataObject:(AVMetadataMachineReadableCodeObject *)metadata];
+            //            AVMetadataMachineReadableCodeObject *barCodeObject = (AVMetadataMachineReadableCodeObject *)[_previewLayer transformedMetadataObjectForMetadataObject:(AVMetadataMachineReadableCodeObject *)metadata];
             detectionString = [(AVMetadataMachineReadableCodeObject *)metadata stringValue];
-//            NSLog(@"%@",detectionString);
-
+            //            NSLog(@"%@",detectionString);
+            
             // 藉由掃描到的條碼文字長度來判斷是否是我們所需要的
             if (detectionString.length == kVaildBarcodeLength) {
                 // Vibrate 震動
                 AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-    
+                
                 // 暫停掃描
                 [_session stopRunning];
                 _previewLayer.connection.enabled = false;

@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -79,8 +80,28 @@
                     <view key="view" contentMode="scaleToFill" id="RbN-fD-yQn">
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="幫助定位" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hEw-Me-Luh">
+                                <rect key="frame" x="10" y="30" width="355" height="170"/>
+                                <color key="backgroundColor" red="0.57254901960000004" green="0.68235294120000001" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="170" id="TW9-5j-Cuy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <color key="textColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="hEw-Me-Luh" secondAttribute="trailing" constant="10" id="d9k-2z-6aS"/>
+                            <constraint firstItem="hEw-Me-Luh" firstAttribute="top" secondItem="HUj-Uq-C6O" secondAttribute="bottom" constant="30" id="uI3-uA-WRx"/>
+                            <constraint firstItem="hEw-Me-Luh" firstAttribute="leading" secondItem="RbN-fD-yQn" secondAttribute="leading" constant="10" id="wXI-4o-c7F"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="scanPosition" destination="hEw-Me-Luh" id="stw-dy-581"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="atf-CG-nZH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -97,8 +118,28 @@
                     <view key="view" contentMode="scaleToFill" id="tS8-4V-0dr">
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="幫助定位" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="exh-1f-YM9">
+                                <rect key="frame" x="30" y="30" width="315" height="315"/>
+                                <color key="backgroundColor" red="0.57254901960000004" green="0.68235294120000001" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="exh-1f-YM9" secondAttribute="height" id="p45-Ek-Tzf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <color key="textColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="exh-1f-YM9" firstAttribute="top" secondItem="8zU-Lo-ydx" secondAttribute="bottom" constant="30" id="8YI-9K-X2c"/>
+                            <constraint firstAttribute="trailing" secondItem="exh-1f-YM9" secondAttribute="trailing" constant="30" id="8i4-Eq-ujn"/>
+                            <constraint firstItem="exh-1f-YM9" firstAttribute="leading" secondItem="tS8-4V-0dr" secondAttribute="leading" constant="30" id="uHI-mk-Zqi"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="scanPosition" destination="exh-1f-YM9" id="v67-rG-GSC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gr5-Su-on3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -109,7 +150,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WcR-t8-KBw" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="gQn-yp-yHY">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="gQn-yp-yHY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
