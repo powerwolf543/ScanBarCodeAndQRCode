@@ -110,7 +110,7 @@
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[scanLine(2)]" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-(%f)-[scanLine]-(%f)-|",theSpacing,theSpacing] options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:views]];
     
-    scanLine.layer.shadowColor = [UIColor redColor].CGColor;
+    scanLine.layer.shadowColor = scanLine.backgroundColor.CGColor;
     scanLine.layer.shadowOffset = CGSizeMake(0, 0);
     scanLine.layer.shadowRadius = 2;
     scanLine.layer.shadowOpacity = 1.f;
