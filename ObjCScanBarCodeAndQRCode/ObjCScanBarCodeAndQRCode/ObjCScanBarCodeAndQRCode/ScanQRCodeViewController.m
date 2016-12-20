@@ -42,10 +42,6 @@
     [self startScanAnimation];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self stopScan];
@@ -93,6 +89,9 @@
 
 /** 加上動畫線的View */
 - (void)addScanLine {
+    
+    if (scanLine) return;
+    
     scanLine = [UIView new];
     scanLine.backgroundColor = [UIColor colorWithRed:1.f green:0 blue:0 alpha:0.4];
     [self.view addSubview:scanLine];
@@ -115,13 +114,14 @@
 /** 開始掃描線動畫 */
 - (void)startScanAnimation {
     
-    if (!scanLine) {
-        [self addScanLine];
-        [self.view layoutIfNeeded];
-    }
+    [self.view.layer removeAllAnimations];
     
+    if (!scanLine) [self addScanLine];
+    
+    scanLineTopConstraint.constant = theSpacing;
+    [self.view layoutIfNeeded];
     scanLineTopConstraint.constant += scanRectWidth;
-
+    
     [UIView animateWithDuration:1.5f delay:0 options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat animations:^{
         [self.view layoutIfNeeded];
     } completion:^(BOOL finished) {
@@ -144,6 +144,8 @@
 
 /** 對AVCaptureSession進行相關掃描所需的設置 */
 - (void)captureSessionInitial {
+    
+    if (_session) return;
     
     // 建立一個抓取Video的裝置
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];

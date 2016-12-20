@@ -84,6 +84,8 @@ static NSUInteger kVaildBarcodeLength = 16;
 /** 對AVCaptureSession進行相關掃描所需的設置 */
 - (void)captureSessionInitial {
     
+    if (_session) return;
+    
     // 建立一個抓取Video的裝置
     AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     NSError *error = nil;
