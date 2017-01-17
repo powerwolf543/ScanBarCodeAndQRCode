@@ -1,0 +1,4 @@
+dependencies: \
+  /Users/nixonshih/Documents/20170109_MBPR_Document_Backup/Programmer/IosAPP/SampleCodeGitHub/ScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/ScanQRCodeViewController.m \
+  /Users/nixonshih/Documents/20170109_MBPR_Document_Backup/Programmer/IosAPP/SampleCodeGitHub/ScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/ScanQRCodeViewController.h \
+  /Users/nixonshih/Documents/20170109_MBPR_Document_Backup/Programmer/IosAPP/SampleCodeGitHub/ScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/NDQRCodeMaskView.h

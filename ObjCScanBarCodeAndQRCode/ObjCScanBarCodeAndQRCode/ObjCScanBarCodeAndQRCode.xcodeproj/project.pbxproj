@@ -22,6 +22,7 @@
 /* Begin PBXFileReference section */
 		252C802E1E078A7600842F1F /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		252C802F1E078A7600842F1F /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		255DBAE71E2E182100F010D6 /* Scan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Scan.h; sourceTree = "<group>"; };
 		2568673A1E02411600A8EFEB /* ObjCScanBarCodeAndQRCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjCScanBarCodeAndQRCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2568673E1E02411600A8EFEB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		256867401E02411600A8EFEB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -70,6 +71,7 @@
 		2568673C1E02411600A8EFEB /* ObjCScanBarCodeAndQRCode */ = {
 			isa = PBXGroup;
 			children = (
+				255DBAE71E2E182100F010D6 /* Scan.h */,
 				252C802E1E078A7600842F1F /* ViewController.h */,
 				252C802F1E078A7600842F1F /* ViewController.m */,
 				256867401E02411600A8EFEB /* AppDelegate.h */,
