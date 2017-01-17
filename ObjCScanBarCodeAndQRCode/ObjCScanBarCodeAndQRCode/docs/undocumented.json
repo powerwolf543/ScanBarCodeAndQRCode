@@ -1,0 +1,26 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/nixonshih/Documents/20170109_MBPR_Document_Backup/Programmer/IosAPP/SampleCodeGitHub/ScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/NDBarCodeMaskView.h",
+      "line": 27,
+      "symbol": "NDBarCodeMaskView.rowOneFrame",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/nixonshih/Documents/20170109_MBPR_Document_Backup/Programmer/IosAPP/SampleCodeGitHub/ScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/NDBarCodeMaskView.h",
+      "line": 28,
+      "symbol": "NDBarCodeMaskView.rowTwoFrame",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/nixonshih/Documents/20170109_MBPR_Document_Backup/Programmer/IosAPP/SampleCodeGitHub/ScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/NDBarCodeMaskView.h",
+      "line": 29,
+      "symbol": "NDBarCodeMaskView.rowThreeFrame",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/nixonshih/Documents/20170109_MBPR_Document_Backup/Programmer/IosAPP/SampleCodeGitHub/ScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode/ObjCScanBarCodeAndQRCode"
+}
